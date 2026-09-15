@@ -1,8 +1,7 @@
-module.exports = {
-  plugins: [
+const plugins = [
     `gatsby-plugin-offline`,
     `gatsby-plugin-react-helmet`,
-    {
+    process.env.COSMIC_BUCKET && {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/src/pages`,
@@ -19,10 +18,10 @@ module.exports = {
         }
       }
     },
-    {
+    process.env.GOOGLE_ANALYTICS_TRACKING_ID && {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        //trackingId: `ADD YOUR TRACKING ID HERE`,
+        trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
       },
     },
     {
@@ -31,5 +30,8 @@ module.exports = {
         pathToConfigModule: 'src/utils/typography',
       },
     },
-  ],
+  ].filter(Boolean)
+
+module.exports = {
+  plugins,
 }
